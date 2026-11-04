@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 通用动作 -->
+    <string name="action_retry">重试</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_delete">删除</string>
+
+    <!-- 首页（题库列表） -->
+    <string name="banks_title">刷题</string>
+    <string name="banks_settings">设置</string>
+    <string name="banks_import">导入题库</string>
+    <string name="banks_error_title">读取题库失败</string>
+    <string name="banks_empty_title">还没有题库</string>
+    <string name="banks_empty_desc">点下面的按钮，选一个题库 JSON 文件导入。</string>
+    <string name="banks_section_banks">题库</string>
+    <string name="banks_wrong_book">错题本（%1$d）</string>
+    <string name="banks_favorites">收藏</string>
+    <string name="banks_stats">累计作答 %1$d 题，答对 %2$d 题，正确率 %3$d%%</string>
+    <string name="banks_question_count">共 %1$d 题</string>
+    <string name="banks_random">随机 20 题</string>
+    <string name="banks_delete_title">删除题库</string>
+    <string name="banks_delete_message">确定删除「%1$s」吗？该题库的答题记录和收藏也会一起删除，无法恢复。</string>
+
+    <!-- 刷题页 -->
+    <string name="quiz_back">返回</string>
+    <string name="quiz_favorite">收藏本题</string>
+    <string name="quiz_unfavorite">取消收藏</string>
+    <string name="quiz_error_title">题目加载失败</string>
+    <string name="quiz_empty_title">这里还没有题目</string>
+    <string name="quiz_empty_desc">导入题库，或者先去答几道题再来。</string>
+    <string name="quiz_progress">第 %1$d / %2$d 题</string>
+    <string name="quiz_type_single">单选题</string>
+    <string name="quiz_type_multiple">多选题</string>
+    <string name="quiz_type_true_false">判断题</string>
+    <string name="quiz_correct">回答正确</string>
+    <string name="quiz_wrong">回答错误</string>
+    <string name="quiz_correct_answer">正确答案：%1$s</string>
+    <string name="quiz_explanation">解析：%1$s</string>
+    <string name="quiz_no_explanation">这道题没有提供解析。</string>
+    <string name="quiz_summary">本次答对 %1$d / %2$d 题，正确率 %3$d%%</string>
+    <string name="quiz_previous">上一题</string>
+    <string name="quiz_submit">提交答案</string>
+    <string name="quiz_next">下一题</string>
+
+    <!-- 错题本 / 收藏 -->
+    <string name="wrong_book_title">错题本</string>
+    <string name="wrong_book_empty_title">没有错题</string>
+    <string name="wrong_book_empty_desc">答错的题会自动收进来；重做答对后会自动移出。</string>
+    <string name="favorites_title">收藏</string>
+    <string name="favorites_empty_title">还没有收藏</string>
+    <string name="favorites_empty_desc">刷题时点右上角的星标，就能把题收藏到这里。</string>
+    <string name="collection_start_practice">开始练习（%1$d 题）</string>
+
+    <!-- 导入页 -->
+    <string name="import_title">导入题库</string>
+    <string name="import_pick_file">选择 JSON 文件</string>
+    <string name="import_pick_hint">从手机里选一个题库 JSON 文件。可以放在下载目录里。</string>
+    <string name="import_contract_title">题库格式</string>
+    <string name="import_contract_desc">文件需要包含 schemaVersion、bankId、title、questions 四个字段。点下面的示例可以复制一份模板。</string>
+    <string name="import_in_progress">正在导入…</string>
+    <string name="import_success">导入成功：%1$s，共 %2$d 题</string>
+    <string name="import_success_replaced">已更新题库：%1$s，共 %2$d 题</string>
+    <string name="import_failed_title">导入失败</string>
+    <string name="import_failed_hint">修好下面这些问题再选一次文件。所有问题都会一次列出来。</string>
+    <string name="import_error_count">共 %1$d 处问题</string>
+    <string name="import_dismiss">知道了</string>
+
+    <!-- 设置 -->
+    <string name="settings_title">设置</string>
+    <string name="settings_back">返回</string>
+    <string name="settings_about_title">关于</string>
+    <string name="settings_version">版本 %1$s</string>
+    <string name="settings_stats_title">学习统计</string>
+    <string name="settings_stats_body">累计作答 %1$d 次，答对 %2$d 次</string>
+    <string name="settings_data_title">数据</string>
+    <string name="settings_clear_data">清除全部数据</string>
+    <string name="settings_clear_title">清除全部数据？</string>
+    <string name="settings_clear_message">所有题库、答题记录和收藏都会被删除，无法恢复。</string>
+    <string name="settings_cleared">已清除</string>
+</resources>

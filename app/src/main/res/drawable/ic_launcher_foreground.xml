@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  自适应图标前景层：108x108 的画布，系统只保证中间 72x72 安全区可见，
+  所以图形全部画在 36..72 这个区间里。
+  图形是一本翻开的书 + 一个对勾，纯几何，不用位图。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- 左页 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,34 h20 a4,4 0 0 1 4,4 v34 a4,4 0 0 1 -4,4 h-20 a4,4 0 0 1 -4,-4 v-34 a4,4 0 0 1 4,-4 z" />
+    <!-- 右页 -->
+    <path
+        android:fillColor="#D7E6FF"
+        android:pathData="M58,34 h20 a4,4 0 0 1 4,4 v34 a4,4 0 0 1 -4,4 h-20 a4,4 0 0 1 -4,-4 v-34 a4,4 0 0 1 4,-4 z" />
+    <!-- 书脊 -->
+    <path
+        android:fillColor="#1F6FEB"
+        android:pathData="M52,38 h4 v38 h-4 z" />
+    <!-- 对勾 -->
+    <path
+        android:fillColor="#0F7B72"
+        android:pathData="M65,52 l5,5 l11,-12 l3.5,3.2 l-14.5,16 l-8.5,-8.5 z" />
+</vector>

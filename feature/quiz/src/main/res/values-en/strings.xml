@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_retry">Retry</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_delete">Delete</string>
+
+    <string name="banks_title">Quiz</string>
+    <string name="banks_settings">Settings</string>
+    <string name="banks_import">Import bank</string>
+    <string name="banks_error_title">Couldn\'t load banks</string>
+    <string name="banks_empty_title">No question banks yet</string>
+    <string name="banks_empty_desc">Tap the button below and pick a bank JSON file.</string>
+    <string name="banks_section_banks">Banks</string>
+    <string name="banks_wrong_book">Mistakes (%1$d)</string>
+    <string name="banks_favorites">Favorites</string>
+    <string name="banks_stats">%1$d answered, %2$d correct, %3$d%% accuracy</string>
+    <string name="banks_question_count">%1$d questions</string>
+    <string name="banks_random">Random 20</string>
+    <string name="banks_delete_title">Delete bank</string>
+    <string name="banks_delete_message">Delete "%1$s"? Its answer history and favorites go with it. This can\'t be undone.</string>
+
+    <string name="quiz_back">Back</string>
+    <string name="quiz_favorite">Favorite this question</string>
+    <string name="quiz_unfavorite">Remove from favorites</string>
+    <string name="quiz_error_title">Couldn\'t load questions</string>
+    <string name="quiz_empty_title">Nothing here yet</string>
+    <string name="quiz_empty_desc">Import a bank, or answer a few questions first.</string>
+    <string name="quiz_progress">Question %1$d of %2$d</string>
+    <string name="quiz_type_single">Single choice</string>
+    <string name="quiz_type_multiple">Multiple choice</string>
+    <string name="quiz_type_true_false">True / false</string>
+    <string name="quiz_correct">Correct</string>
+    <string name="quiz_wrong">Incorrect</string>
+    <string name="quiz_correct_answer">Correct answer: %1$s</string>
+    <string name="quiz_explanation">Explanation: %1$s</string>
+    <string name="quiz_no_explanation">No explanation for this question.</string>
+    <string name="quiz_summary">%1$d of %2$d correct, %3$d%%</string>
+    <string name="quiz_previous">Previous</string>
+    <string name="quiz_submit">Submit</string>
+    <string name="quiz_next">Next</string>
+
+    <string name="wrong_book_title">Mistakes</string>
+    <string name="wrong_book_empty_title">No mistakes</string>
+    <string name="wrong_book_empty_desc">Questions you get wrong land here; answer them right and they leave.</string>
+    <string name="favorites_title">Favorites</string>
+    <string name="favorites_empty_title">No favorites yet</string>
+    <string name="favorites_empty_desc">Tap the star while practising to save a question here.</string>
+    <string name="collection_start_practice">Start practising (%1$d)</string>
+
+    <string name="import_title">Import bank</string>
+    <string name="import_pick_file">Pick a JSON file</string>
+    <string name="import_pick_hint">Choose a bank JSON file from your phone. The Downloads folder works fine.</string>
+    <string name="import_contract_title">File format</string>
+    <string name="import_contract_desc">The file needs schemaVersion, bankId, title and questions. Tap the sample below to copy a template.</string>
+    <string name="import_in_progress">Importing…</string>
+    <string name="import_success">Imported "%1$s" with %2$d questions</string>
+    <string name="import_success_replaced">Updated "%1$s" with %2$d questions</string>
+    <string name="import_failed_title">Import failed</string>
+    <string name="import_failed_hint">Fix the issues below and pick the file again. Everything is listed at once.</string>
+    <string name="import_error_count">%1$d issues</string>
+    <string name="import_dismiss">Got it</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_back">Back</string>
+    <string name="settings_about_title">About</string>
+    <string name="settings_version">Version %1$s</string>
+    <string name="settings_stats_title">Study stats</string>
+    <string name="settings_stats_body">%1$d answers, %2$d correct</string>
+    <string name="settings_data_title">Data</string>
+    <string name="settings_clear_data">Clear all data</string>
+    <string name="settings_clear_title">Clear all data?</string>
+    <string name="settings_clear_message">All banks, answer history and favorites will be deleted. This can\'t be undone.</string>
+    <string name="settings_cleared">Cleared</string>
+</resources>

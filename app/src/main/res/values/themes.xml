@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      启动主题。Compose 自己画界面，这里只需要一个不闪白的底色。
+      用 DayNight 让系统在深色模式下也能给出正确底色，避免启动瞬间白屏刺眼。
+    -->
+    <style name="Theme.Quiz" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/launch_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

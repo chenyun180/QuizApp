@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Back</string>
+    <string name="import_title">Import bank</string>
+    <string name="import_pick_file">Choose bank file</string>
+    <string name="import_pick_hint">Pick a .json file from Files, Downloads, or a cloud drive. No storage permission needed.</string>
+    <string name="import_in_progress">Importing…</string>
+    <string name="import_success">Imported “%1$s” with %2$d questions</string>
+    <string name="import_success_replaced">Updated “%1$s” with %2$d questions (existing bank replaced)</string>
+    <string name="import_failed_title">Import failed</string>
+    <string name="import_error_count">%1$d problem(s) found. Nothing was imported. Fix them and try again.</string>
+    <string name="import_failed_hint">Every problem is listed below; check each against the format contract:</string>
+    <string name="import_dismiss">Got it</string>
+    <string name="import_contract_title">Format contract</string>
+    <string name="import_contract_desc">The root must be an object with the fields below. Re-importing a file with the same bankId replaces that bank as a whole. type is single / multiple / true_false. Example:</string>
+</resources>

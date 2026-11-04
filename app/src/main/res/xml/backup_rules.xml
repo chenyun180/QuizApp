@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 11 及以下的备份规则：只备份数据库（题库和答题记录），
+  不备份任何缓存。这样换机时用户的题库和错题本能跟着走。
+-->
+<full-backup-content>
+    <include domain="database" path="quiz.db" />
+    <exclude domain="database" path="quiz.db-wal" />
+    <exclude domain="database" path="quiz.db-shm" />
+</full-backup-content>

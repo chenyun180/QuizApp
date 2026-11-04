@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">返回</string>
+    <string name="import_title">导入题库</string>
+    <string name="import_pick_file">选择题库文件</string>
+    <string name="import_pick_hint">支持 .json 文件。可以从「文件」「下载」「网盘」里选，不需要存储权限。</string>
+    <string name="import_in_progress">正在导入…</string>
+    <string name="import_success">已导入「%1$s」，共 %2$d 题</string>
+    <string name="import_success_replaced">已更新「%1$s」，共 %2$d 题（同名题库已被覆盖）</string>
+    <string name="import_failed_title">导入失败</string>
+    <string name="import_error_count">发现 %1$d 处问题，文件未被导入。请按下方的说明修正后重试。</string>
+    <string name="import_failed_hint">下面是全部错误，逐条对照格式约定修改即可：</string>
+    <string name="import_dismiss">知道了</string>
+    <string name="import_contract_title">格式约定</string>
+    <string name="import_contract_desc">top-level 必须是对象，字段如下；bankId 相同的文件再次导入会整体覆盖旧题库（适合改题后重新导入）。type 可选 single / multiple / true_false。示例：</string>
+</resources>

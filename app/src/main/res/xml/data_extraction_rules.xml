@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 12+ 的备份/迁移规则。云备份与设备间直接迁移都只带数据库，
+  不带任何衍生缓存。
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <include domain="database" path="quiz.db" />
+    </cloud-backup>
+    <device-transfer>
+        <include domain="database" path="quiz.db" />
+    </device-transfer>
+</data-extraction-rules>

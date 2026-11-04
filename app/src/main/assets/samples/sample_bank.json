@@ -1,0 +1,413 @@
+{
+  "schemaVersion": 1,
+  "bankId": "demo-basic",
+  "title": "示例题库 · Android 基础",
+  "version": 1,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single",
+      "stem": "在 Kotlin 中，声明一个只能赋值一次的局部变量应该用哪个关键字？",
+      "options": [
+        {
+          "key": "A",
+          "text": "var"
+        },
+        {
+          "key": "B",
+          "text": "val"
+        },
+        {
+          "key": "C",
+          "text": "lateinit"
+        },
+        {
+          "key": "D",
+          "text": "const"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "explanation": "val 声明只读局部变量/属性，初始化后不能再指向别的对象。注意它保证的是「引用不可变」，不是「对象内容不可变」：val 的 List 仍然可以被别的地方修改，要真正不可变需要用不可变集合类型。",
+      "tags": [
+        "Kotlin 基础",
+        "语法"
+      ],
+      "image": null
+    },
+    {
+      "id": "q2",
+      "type": "multiple",
+      "stem": "下列哪些属于 Android 的四大组件？",
+      "options": [
+        {
+          "key": "A",
+          "text": "Activity"
+        },
+        {
+          "key": "B",
+          "text": "Service"
+        },
+        {
+          "key": "C",
+          "text": "Gradle"
+        },
+        {
+          "key": "D",
+          "text": "BroadcastReceiver"
+        },
+        {
+          "key": "E",
+          "text": "ContentProvider"
+        }
+      ],
+      "answers": [
+        "A",
+        "B",
+        "D",
+        "E"
+      ],
+      "explanation": "四大组件是 Activity、Service、BroadcastReceiver、ContentProvider，全部需要在 AndroidManifest.xml 里声明（或者用动态注册/其他方式被系统感知）。Gradle 是构建工具，不是 Android 组件。",
+      "tags": [
+        "Android 基础",
+        "组件"
+      ],
+      "image": null
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "stem": "Jetpack Compose 中，@Composable 函数可以被普通函数直接调用。",
+      "answers": [
+        "F"
+      ],
+      "explanation": "反过来才对：@Composable 函数只能在另一个 @Composable 函数里调用。普通函数里想进入 Compose 世界必须通过 setContent 之类提供的入口。",
+      "tags": [
+        "Compose"
+      ],
+      "image": null
+    },
+    {
+      "id": "q4",
+      "type": "single",
+      "stem": "Compose 里让一段界面在状态变化时自动重绘，最关键的机制是什么？",
+      "options": [
+        {
+          "key": "A",
+          "text": "手动调用 invalidate()"
+        },
+        {
+          "key": "B",
+          "text": "读取 State 对象，状态变化时重组"
+        },
+        {
+          "key": "C",
+          "text": "调用 notifyDataSetChanged()"
+        },
+        {
+          "key": "D",
+          "text": "重新 startActivity()"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "explanation": "Compose 的模型是「界面是状态的函数」。@Composable 函数读取 State<T>.value 时会自动订阅，值一变，读取它的那一段就会重组（recomposition）。不需要也没法手动调用 invalidate。",
+      "tags": [
+        "Compose",
+        "状态管理"
+      ],
+      "image": null
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "stem": "Room 数据库中，给某列加索引最主要的目的是什么？",
+      "options": [
+        {
+          "key": "A",
+          "text": "减少磁盘占用"
+        },
+        {
+          "key": "B",
+          "text": "加快按该列查询的速度"
+        },
+        {
+          "key": "C",
+          "text": "强制该列非空"
+        },
+        {
+          "key": "D",
+          "text": "保证该列唯一"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "explanation": "索引是一份额外的有序结构，让 WHERE/ORDER BY 命中的查询不必全表扫描。代价是插入/更新更慢、占用更多磁盘。非空用 @NonNull，唯一用 @Index(unique = true)。",
+      "tags": [
+        "Room",
+        "数据库"
+      ],
+      "image": null
+    },
+    {
+      "id": "q6",
+      "type": "multiple",
+      "stem": "关于 Android 的签名密钥（keystore），下列说法正确的有哪些？",
+      "options": [
+        {
+          "key": "A",
+          "text": "同一个 App 的后续版本必须用同一把密钥签名，否则系统会拒绝安装升级"
+        },
+        {
+          "key": "B",
+          "text": "密钥文件丢了就只能换包名重新发布"
+        },
+        {
+          "key": "C",
+          "text": "debug 包不需要签名"
+        },
+        {
+          "key": "D",
+          "text": "密钥文件应该提交到公开的 git 仓库方便团队共享"
+        }
+      ],
+      "answers": [
+        "A",
+        "B"
+      ],
+      "explanation": "签名是 App 的身份证明：系统按「包名 + 签名」判断是不是同一个 App。密钥丢失且没有备份，就无法再更新已发布的 App（Google Play 的应用签名可以把上传密钥交给 Google 托管来缓解这个问题）。debug 包也会用自动生成的 debug 密钥签名，只是不安全、不能用于发布。",
+      "tags": [
+        "发布",
+        "签名"
+      ],
+      "image": null
+    },
+    {
+      "id": "q7",
+      "type": "true_false",
+      "stem": "在 AndroidManifest.xml 中声明了权限，运行时就不需要再向用户申请了。",
+      "answers": [
+        "F"
+      ],
+      "explanation": "危险权限（相机、定位、存储等）从 Android 6.0 起必须同时满足两件事：清单里声明 + 运行时动态申请。只声明不申请，调用时会直接抛 SecurityException。",
+      "tags": [
+        "权限",
+        "Android 基础"
+      ],
+      "image": null
+    },
+    {
+      "id": "q8",
+      "type": "single",
+      "stem": "ViewModel 相比直接在 Activity 里存数据，最大的好处是什么？",
+      "options": [
+        {
+          "key": "A",
+          "text": "运行速度更快"
+        },
+        {
+          "key": "B",
+          "text": "屏幕旋转等配置变更后数据不丢"
+        },
+        {
+          "key": "C",
+          "text": "可以自动联网"
+        },
+        {
+          "key": "D",
+          "text": "包体积更小"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "explanation": "配置变更（旋转屏幕、切换深色模式）会重建 Activity，但 ViewModel 会被保留。这样列表数据、加载状态都不必重新请求。注意进程被系统杀死时 ViewModel 也会没，那种情况要靠 SavedStateHandle。",
+      "tags": [
+        "架构",
+        "ViewModel"
+      ],
+      "image": null
+    },
+    {
+      "id": "q9",
+      "type": "single",
+      "stem": "KSP 在 Android 工程里替代了以前的哪个工具？",
+      "options": [
+        {
+          "key": "A",
+          "text": "kapt"
+        },
+        {
+          "key": "B",
+          "text": "ProGuard"
+        },
+        {
+          "key": "C",
+          "text": "adb"
+        },
+        {
+          "key": "D",
+          "text": "Lint"
+        }
+      ],
+      "answers": [
+        "A"
+      ],
+      "explanation": "KSP（Kotlin Symbol Processing）直接分析 Kotlin 语法树，不需要先生成 Java 存根，所以比 kapt 快得多。Room、Hilt、Moshi 等注解处理器现在都支持 KSP。",
+      "tags": [
+        "构建",
+        "Kotlin 基础"
+      ],
+      "image": null
+    },
+    {
+      "id": "q10",
+      "type": "multiple",
+      "stem": "下列哪些做法能有效减小 release APK 的体积？",
+      "options": [
+        {
+          "key": "A",
+          "text": "开启 R8 代码压缩"
+        },
+        {
+          "key": "B",
+          "text": "开启 resource shrinking 资源压缩"
+        },
+        {
+          "key": "C",
+          "text": "把所有图片都换成 4K PNG"
+        },
+        {
+          "key": "D",
+          "text": "用 resourceConfigurations 限制语言"
+        }
+      ],
+      "answers": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "R8 删掉没被引用的类/方法，resource shrinking 删掉没被引用的资源，语言限制去掉用不到的语言资源（AppCompat 自带几十种语言）。高分辨率 PNG 反而会撑大包体，而且 PNG 通常不如 WebP。",
+      "tags": [
+        "构建",
+        "发布"
+      ],
+      "image": null
+    },
+    {
+      "id": "q11",
+      "type": "true_false",
+      "stem": "Flow 的 collect 默认会在主线程之外执行上游的数据生产。",
+      "answers": [
+        "F"
+      ],
+      "explanation": "Flow 是「冷流」，默认是上下文保留的：上游代码在哪个上下文里 collect 就在哪个上下文执行。要在 IO 线程读数据库，需要显式 withContext(Dispatchers.IO) 或在 DAO 上用 suspend + Room 自己的调度。",
+      "tags": [
+        "协程",
+        "Flow"
+      ],
+      "image": null
+    },
+    {
+      "id": "q12",
+      "type": "single",
+      "stem": "一个 App 的 targetSdkVersion 提高，最重要的影响是什么？",
+      "options": [
+        {
+          "key": "A",
+          "text": "App 只能装在新手机上"
+        },
+        {
+          "key": "B",
+          "text": "系统会按新版 Android 的行为变更来对待这个 App"
+        },
+        {
+          "key": "C",
+          "text": "编译速度变快"
+        },
+        {
+          "key": "D",
+          "text": "App 的图标会变"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "explanation": "targetSdk 是「我按哪个版本的行为规范写的」。系统用它来决定是否启用各种兼容性行为变更（后台限制、存储权限、通知权限等）。它也决定了能否上架应用商店——商店通常会要求较高的 targetSdk。",
+      "tags": [
+        "发布",
+        "Android 基础"
+      ],
+      "image": null
+    },
+    {
+      "id": "q13",
+      "type": "multiple",
+      "stem": "关于 Room 的 @Transaction 注解，正确的说法有哪些？",
+      "options": [
+        {
+          "key": "A",
+          "text": "标注在 suspend 方法上时，整个方法体在同一个事务里执行"
+        },
+        {
+          "key": "B",
+          "text": "中途抛异常会整体回滚"
+        },
+        {
+          "key": "C",
+          "text": "事务里可以安全地做多个相关的写操作"
+        },
+        {
+          "key": "D",
+          "text": "加上它之后查询速度一定变快"
+        }
+      ],
+      "answers": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "事务保证原子性：要么全部成功，要么全部回滚。这正是「导入题库」这种多表写入必须包在事务里的原因。它不保证更快，反而因为要维护事务日志略有开销；它的价值是正确性。",
+      "tags": [
+        "Room",
+        "数据库"
+      ],
+      "image": null
+    },
+    {
+      "id": "q14",
+      "type": "single",
+      "stem": "Kotlin 协程里，viewModelScope 被取消的时机是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "App 退到后台时"
+        },
+        {
+          "key": "B",
+          "text": "对应的 ViewModel 被清除时"
+        },
+        {
+          "key": "C",
+          "text": "屏幕旋转时"
+        },
+        {
+          "key": "D",
+          "text": "永远不会被取消"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "explanation": "viewModelScope 绑定 ViewModel 生命周期，ViewModel.onCleared() 时取消。退到后台不会取消（这正是它适合做「用户回来还要看结果」的任务的原因）。屏幕旋转时 ViewModel 保留，所以 scope 也不取消。",
+      "tags": [
+        "协程",
+        "架构"
+      ],
+      "image": null
+    }
+  ]
+}
