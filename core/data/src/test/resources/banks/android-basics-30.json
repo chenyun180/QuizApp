@@ -1,0 +1,853 @@
+{
+  "schemaVersion": 1,
+  "bankId": "android-basics-30",
+  "title": "Android 基础 · 30 题",
+  "version": 1,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single",
+      "stem": "关于 Kotlin 中 `val` 的语义，下列说法准确的是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "`val` 声明后，其指向对象的内部状态也不能再被修改"
+        },
+        {
+          "key": "B",
+          "text": "`val` 保证引用不可变，但引用指向的对象本身仍然可以被修改"
+        },
+        {
+          "key": "C",
+          "text": "`val` 声明的局部变量在同一作用域内允许被重新赋值一次"
+        },
+        {
+          "key": "D",
+          "text": "`val` 只能用于顶层属性和类属性，不能用于函数内的局部变量"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "explanation": "val 保证的是「引用只读」，不是「对象不可变」：先写 val list = mutableListOf(1)，再调用 list.add(2) 完全合法，因为改变的是对象内部状态、引用本身没变。真正不可变要同时满足两点：接口是只读的（List 而非 MutableList），且底层实现不会被外部持有并修改。var 才是可重新赋值的那个关键字。val 可以用在任何需要声明变量的位置，包括局部变量、类属性、函数参数属性，甚至可以在 when 分支里做局部声明，不存在「只能用在类属性上」的限制。",
+      "tags": [
+        "Kotlin 基础"
+      ],
+      "image": null
+    },
+    {
+      "id": "q2",
+      "type": "single",
+      "stem": "关于 Kotlin 空安全（null safety），下列说法正确的是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "编译期会区分 `String?` 与 `String` 的可空性，因此 `String?` 不能直接传给期望 `String` 的参数"
+        },
+        {
+          "key": "B",
+          "text": "`!!` 在值为 null 时抛出 NullPointerException，但它比 `?.` 更安全，因为会把类型收窄为非空"
+        },
+        {
+          "key": "C",
+          "text": "`lateinit var` 可以修饰 `Int`、`Boolean` 这类基本类型属性"
+        },
+        {
+          "key": "D",
+          "text": "对可空变量使用一次 `?.` 调用后，编译器就会把这个变量本身视为非空"
+        }
+      ],
+      "answers": [
+        "A"
+      ],
+      "explanation": "Kotlin 在编译期用可空性标注做静态检查，String? 与 String 在类型系统里是两种类型，把可空值直接传给非空参数会编译失败，必须经过 ?: 给默认值、if 判空后的智能转换、或 !! 断言。!! 恰恰是「放弃检查」：值为 null 时立刻抛 NPE，说它更安全是反的。lateinit 只能修饰非空引用类型属性，Int、Boolean 这类基本类型没有默认 null 可表示，必须用委托或默认值。?. 作用于接收者并返回可空结果，不会让变量本身发生智能转换，因为变量可能在两次读取之间被改变。",
+      "tags": [
+        "Kotlin 基础"
+      ],
+      "image": null
+    },
+    {
+      "id": "q3",
+      "type": "single",
+      "stem": "`data class User(val id: Int, val name: String)` 会由编译器生成若干成员。下列哪一项**不是** data class 自动生成的？",
+      "options": [
+        {
+          "key": "A",
+          "text": "基于主构造函数全部属性的 `equals` / `hashCode`"
+        },
+        {
+          "key": "B",
+          "text": "`copy()` 函数，以及 `componentN()` 解构函数"
+        },
+        {
+          "key": "C",
+          "text": "一个无参构造函数，方便反射或框架直接 new 出实例"
+        },
+        {
+          "key": "D",
+          "text": "基于主构造函数全部属性的 `toString()`"
+        }
+      ],
+      "answers": [
+        "C"
+      ],
+      "explanation": "data class 自动生成 equals、hashCode、toString、copy 和 componentN，但它们的依据只有主构造函数里声明的属性；写在类体里的属性不参与 equals/hashCode，也不会被 copy 复制，这是新手最常踩的坑。无参构造函数不会因为 data 关键字而出现，只有当全部参数都带默认值时，Kotlin 才会额外生成一个无参构造供调用，那是默认参数机制的产物。需要给 Room、Gson 这类依赖无参构造的框架用时，通常显式给每个参数默认值，而不是期待编译器凭空生成。",
+      "tags": [
+        "Kotlin 基础"
+      ],
+      "image": null
+    },
+    {
+      "id": "q4",
+      "type": "single",
+      "stem": "定义了扩展函数 `fun String.lastChar(): Char = this[length - 1]`，下列说法正确的是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "扩展函数是静态解析的，运行期不会向 String 类附加任何成员"
+        },
+        {
+          "key": "B",
+          "text": "扩展函数能访问 String 的 private 成员，因为它在同一个编译单元里"
+        },
+        {
+          "key": "C",
+          "text": "在某个子类型上重新定义同名扩展函数时，会按运行时实际类型多态派发"
+        },
+        {
+          "key": "D",
+          "text": "编译器会把扩展函数的字节码注入到 String 类中"
+        }
+      ],
+      "answers": [
+        "A"
+      ],
+      "explanation": "扩展函数在字节码层面只是一个静态方法，接收者变成了第一个参数（等价于 static char lastChar(String $this)），它既不修改被扩展类的字节码，也不能访问对方的 private 或 protected 成员——所以把它当成「给别人的类加方法」是误解。派发是静态的：调用哪个扩展函数由编译期接收者的声明类型决定，运行时即使实际类型不同也不会改变，因此扩展函数不能被「重写」，只能被遮蔽。同名同签名时成员函数优先于扩展函数，这点也常被拿来解释为什么有些「扩展」看起来没生效。",
+      "tags": [
+        "Kotlin 基础"
+      ],
+      "image": null
+    },
+    {
+      "id": "q5",
+      "type": "single",
+      "stem": "对一个 `sealed interface Result`（已知子类型为 `Ok` 与 `Err`）使用 `when`，下列说法正确的是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "加一个 `else -> Unit` 分支会让代码更健壮，将来新增子类型也不会编译失败"
+        },
+        {
+          "key": "B",
+          "text": "作为表达式使用时，漏掉任一子类型都会编译失败；一旦写了 `else`，新增子类型就不再报错"
+        },
+        {
+          "key": "C",
+          "text": "`when` 只能匹配常量，无法对 sealed 的子类型做穷尽匹配"
+        },
+        {
+          "key": "D",
+          "text": "sealed 类型的子类型必须全部写在同一个文件里，可以分散在不同模块"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "explanation": "sealed 的价值在于编译器知道全部直接子类型，当 when 被当作表达式（结果赋给变量或直接 return）时会强制穷尽，漏一个分支就编译失败——新增子类型时，所有需要处理它的地方都会被编译器点名，这是运行时异常换不来的保障。写了 else 就等于关掉这层保护：新子类型会静默落进 else，对 Result 这种类型来说往往意味着错误被当成正常结果处理。sealed 的子类型要求同一模块、同一包（Kotlin 1.5 起不再要求同一文件），跨模块不被允许；when 当然可以对类型做穷尽匹配，那正是它的主要用法之一。",
+      "tags": [
+        "Kotlin 基础"
+      ],
+      "image": null
+    },
+    {
+      "id": "q6",
+      "type": "multiple",
+      "stem": "关于 Kotlin 标准库的作用域函数，下列说法正确的有？（多选）",
+      "options": [
+        {
+          "key": "A",
+          "text": "`apply` 的接收者在 lambda 里通过 `this` 访问，返回值是接收者本身"
+        },
+        {
+          "key": "B",
+          "text": "`let` 的接收者在 lambda 里通过 `this` 访问，返回值是接收者本身"
+        },
+        {
+          "key": "C",
+          "text": "`also` 的接收者在 lambda 里通过 `it` 访问，返回值是接收者本身"
+        },
+        {
+          "key": "D",
+          "text": "`with` 是一个扩展函数，因此可以在任意对象上用点号直接调用"
+        }
+      ],
+      "answers": [
+        "A",
+        "C"
+      ],
+      "explanation": "记这组函数只需两个维度：接收者怎么引用、返回什么。apply 用 this、返回接收者，适合构造完对象后连续配置属性，也能写出 builder 风格的代码；also 用 it、返回接收者，适合在链路中插入副作用，比如打日志；let 用 it、返回 lambda 最后一行结果，配合 ?. 处理可空对象或把作用域缩小；run 用 this、返回 lambda 结果；with 不是扩展函数，而是一个顶层函数，接收者作为第一个参数传入（with(obj) { ... }），所以不能写成 obj.with { }。搞清楚这两个维度就不会再记错。",
+      "tags": [
+        "Kotlin 基础"
+      ],
+      "image": null
+    },
+    {
+      "id": "q7",
+      "type": "single",
+      "stem": "用户按 Home 键把 Activity 切到后台（系统未开启「不保留活动」），随后又切回前台。回调顺序是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "onPause → onStop → onRestart → onStart → onResume"
+        },
+        {
+          "key": "B",
+          "text": "onPause → onDestroy → onCreate → onStart → onResume"
+        },
+        {
+          "key": "C",
+          "text": "onStop → onPause → onStart → onResume"
+        },
+        {
+          "key": "D",
+          "text": "onPause → onStop → onCreate → onResume"
+        }
+      ],
+      "answers": [
+        "A"
+      ],
+      "explanation": "按 Home 时 Activity 先 onPause（失去前台焦点，仍部分可见）再 onStop（完全不可见），此时进程和实例都还在，回到前台走 onRestart → onStart → onResume，不会重新 onCreate。onDestroy 只在显式 finish、系统回收、或配置变更时触发，绝不是「切后台」的必经之路。选项 C 把 onPause 与 onStop 的顺序颠倒了：onPause 一定早于 onStop，因为前者是失去焦点、后者是完全不可见，两个状态是渐进的。把顺序记成「暂停→停止→重启→开始→继续」，就与设计意图一致了。",
+      "tags": [
+        "生命周期",
+        "Activity"
+      ],
+      "image": null
+    },
+    {
+      "id": "q8",
+      "type": "single",
+      "stem": "关于 Activity 的状态保存，下列说法正确的是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "`onSaveInstanceState` 适合保存整份网络返回的大列表，因为它一定会在进程被杀前被调用"
+        },
+        {
+          "key": "B",
+          "text": "`onSaveInstanceState` 的数据要写进系统事务的 Bundle，有大小限制且需要序列化，只适合少量可重建的状态"
+        },
+        {
+          "key": "C",
+          "text": "屏幕旋转导致 Activity 重建时，`onSaveInstanceState` 不会被调用"
+        },
+        {
+          "key": "D",
+          "text": "ViewModel 里的数据在进程被系统杀死后依然保留"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "explanation": "onSaveInstanceState 的数据会随系统事务跨进程传递，受 Binder 事务缓冲区（约 1MB 级别）限制，超了会抛 TransactionTooLargeException，而且每次都要序列化，所以只适合题号、滚动位置、输入框内容这类少量状态；大列表应该留在数据库或文件里，重建后重新查询。它并不保证一定被调用：进程可能被直接 kill，用户主动 finish 时也不会走。屏幕旋转一定会走它（在 onDestroy 之前），新实例在 onCreate(savedInstanceState) 里取回。ViewModel 只在配置变更时存活，进程被杀同样会丢，那种情况要靠 SavedStateHandle。",
+      "tags": [
+        "生命周期",
+        "Activity"
+      ],
+      "image": null
+    },
+    {
+      "id": "q9",
+      "type": "true_false",
+      "stem": "只要在 AndroidManifest 中给 Activity 声明 `android:configChanges=\"orientation|screenSize\"`，旋转屏幕时 Activity 就不会重建，因此这是保留界面状态的推荐做法。",
+      "answers": [
+        "false"
+      ],
+      "explanation": "configChanges 确实能阻止重建，但代价是所有随配置变化的资源——布局限定符（layout-land）、字符串、主题、尺寸、字体缩放——都不会自动重新加载，必须自己在 onConfigurationChanged 里逐项处理，漏一处就是布局错乱或文案不更新。而且它只挡住声明的那几种配置，深色模式切换、语言切换、字体大小变化照样会重建，进程被系统回收更躲不过。官方推荐的思路是让重建成为安全操作：数据放 ViewModel，少量 UI 状态用 onSaveInstanceState 或 rememberSaveable，这样任何原因导致的重建都能恢复。",
+      "tags": [
+        "生命周期",
+        "Activity"
+      ],
+      "image": null
+    },
+    {
+      "id": "q10",
+      "type": "multiple",
+      "stem": "关于 `onStop` 与 `onDestroy`，下列说法正确的有？（多选）",
+      "options": [
+        {
+          "key": "A",
+          "text": "Activity 完全不可见后才会回调 `onStop`，适合在这里释放相机、传感器等重量级资源"
+        },
+        {
+          "key": "B",
+          "text": "系统内存紧张时，处于 stopped 状态的 Activity 所在进程可能被直接杀死，且不会回调 `onDestroy`"
+        },
+        {
+          "key": "C",
+          "text": "`onDestroy` 一定会在进程被杀之前被回调，因此可以放心在里面做持久化"
+        },
+        {
+          "key": "D",
+          "text": "`isFinishing` 为 true 时的 `onDestroy` 通常由 `finish()` 或返回键触发，而不是配置变更"
+        }
+      ],
+      "answers": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "onStop 的语义是「完全不可见」，这是释放相机、定位、传感器监听等重量级资源的安全时机（比 onPause 更不容易打断用户正在进行的操作）；onPause 更短，只适合停掉动画、暂停视频这类轻量动作。进程被系统回收时不会给任何回调，onDestroy 只覆盖主动销毁的路径，所以持久化必须写在数据变化的那一刻（比如写库、onPause 里保存编辑内容），不能指望 onDestroy。isFinishing 用来区分「真的要结束了」和「只是配置变更重建」：前者为 true，后者为 false，这也是判断是否需要清理全局状态的标准做法。",
+      "tags": [
+        "生命周期",
+        "Activity"
+      ],
+      "image": null
+    },
+    {
+      "id": "q11",
+      "type": "single",
+      "stem": "关于显式 Intent 与隐式 Intent，下列说法正确的是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "隐式 Intent 通过 `setComponent()` 指定目标组件的类名来发起跳转"
+        },
+        {
+          "key": "B",
+          "text": "显式 Intent 直接指定目标组件（ComponentName 或类对象），不参与 IntentFilter 匹配；跨应用使用时目标组件必须导出"
+        },
+        {
+          "key": "C",
+          "text": "从 Android 11（API 30）起，用隐式 Intent 查询可处理应用不需要再声明 `<queries>`，系统会返回全部结果"
+        },
+        {
+          "key": "D",
+          "text": "隐式 Intent 一定只会匹配到一个 Activity，匹配到多个时系统会抛异常"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "explanation": "显式 Intent 用 Intent(context, DetailActivity::class.java) 或 setComponent 直接点名目标，系统不做 filter 匹配，直接投递；跨应用时目标组件必须 android:exported=\"true\"，否则会被拒绝（Android 12 起带 intent-filter 的组件还强制要求显式声明 exported）。隐式 Intent 靠 action、category、data 与 IntentFilter 匹配，setComponent 恰恰是显式写法。API 30 起包可见性收紧，queryIntentActivities、resolveActivity 这类查询必须在 <queries> 里声明目标包或 intent，否则拿不到结果，startActivity 本身不受影响。匹配到多个时系统弹出选择器，只有零匹配才需要处理 ActivityNotFoundException。",
+      "tags": [
+        "Intent",
+        "四大组件"
+      ],
+      "image": null
+    },
+    {
+      "id": "q12",
+      "type": "multiple",
+      "stem": "关于 Activity 之间传参与返回结果，下列说法正确的有？（多选）",
+      "options": [
+        {
+          "key": "A",
+          "text": "Intent 的 extras 走 Binder 传输，整份数据受事务缓冲区限制，传大图应改为传 Uri 或写文件后传路径"
+        },
+        {
+          "key": "B",
+          "text": "`startActivityForResult` 已标记废弃但仍可用，官方推荐 `ActivityResultContracts` + `registerForActivityResult`"
+        },
+        {
+          "key": "C",
+          "text": "`registerForActivityResult` 必须在 Activity 初始化阶段（如 onCreate）调用，不能在点击事件里临时注册"
+        },
+        {
+          "key": "D",
+          "text": "`Parcelable` 与 `Serializable` 都能放进 Intent，其中 `Serializable` 靠反射实现，性能更好"
+        }
+      ],
+      "answers": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "extras 是序列化后通过 Binder 传的，一次事务有约 1MB 的共享缓冲，塞 Bitmap 或大 JSON 会抛 TransactionTooLargeException，正确做法是传 content Uri、文件路径，或者干脆让目标页面自己按 id 查询。startActivityForResult 与 onActivityResult 已被 AndroidX 废弃，新 API 用 ActivityResultContracts（GetContent、PickVisualMedia、RequestPermission 等）配合 registerForActivityResult。注册必须在 Activity 或 Fragment 初始化时完成，因为要在 STARTED 之前恢复已保存的结果；在点击回调里注册会抛 IllegalStateException。Serializable 依赖反射和 IO 流，性能明显差于 Parcelable，两者都不适合大数据。",
+      "tags": [
+        "Intent",
+        "四大组件"
+      ],
+      "image": null
+    },
+    {
+      "id": "q13",
+      "type": "single",
+      "stem": "关于 Compose 的「状态提升」（state hoisting），下列说法正确的是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "把状态从子组件内部移到调用方，子组件通过参数接收值、通过回调上报事件，从而变成无状态的可复用组件"
+        },
+        {
+          "key": "B",
+          "text": "状态提升就是把 `remember` 换成 `rememberSaveable`，以便进程被杀后能恢复"
+        },
+        {
+          "key": "C",
+          "text": "状态提升要求子组件自己持有 `MutableState`，否则无法触发重组"
+        },
+        {
+          "key": "D",
+          "text": "状态提升只适用于 `TextField`，其他组件没有这个概念"
+        }
+      ],
+      "answers": [
+        "A"
+      ],
+      "explanation": "状态提升的核心是把「谁拥有状态」上移：子组件只接收 value 和 onValueChange 这类回调，自己不再 remember，于是它变成无状态组件，可以复用、可以预览、可以单独测试，而且状态只有一个可信来源，不会出现父子两份状态不同步。它和 rememberSaveable 是两个正交的话题：后者解决的是「值如何跨重建恢复」，把 remember 换成 rememberSaveable 并不改变状态的归属。恰恰相反，为了让子组件可复用，通常要让它不要持有可变状态；这个模式对任何组件都适用，TextField 只是最常见的一例。",
+      "tags": [
+        "Compose"
+      ],
+      "image": null
+    },
+    {
+      "id": "q14",
+      "type": "true_false",
+      "stem": "在 Compose 中，任何一个 `MutableState` 的值变化都会导致整棵 UI 树重新组合一遍，因此状态数量越少越好。",
+      "answers": [
+        "false"
+      ],
+      "explanation": "Compose 运行时记录了每个可重启作用域读取过哪些 State，状态变化时只把读取它的那些作用域标记为失效并重新执行，重组范围可以小到一个 Text；父级重组时，参数未变化且类型稳定的子组件也会被跳过，不会自顶向下全部重算。所以关键不是「状态越少越好」，而是读取位置要尽量靠下、状态要稳定可比较：在高层的组合函数里读取频繁变化的 State，才会把大范围子树一起拖进重组。判断一个类是否 stable 主要看它是否不可变、属性是否都可比较，@Stable/@Immutable 就是给编译器这类提示的。",
+      "tags": [
+        "Compose"
+      ],
+      "image": null
+    },
+    {
+      "id": "q15",
+      "type": "single",
+      "stem": "下列哪种场景必须使用 `rememberSaveable` 而不是 `remember`？",
+      "options": [
+        {
+          "key": "A",
+          "text": "缓存一个从网络加载回来的列表对象，避免重组时重复请求"
+        },
+        {
+          "key": "B",
+          "text": "保存表单输入内容，要求跨屏幕旋转（配置变更）以及进程被系统回收后都能恢复"
+        },
+        {
+          "key": "C",
+          "text": "保存一个 `Context` 引用，方便在组合函数里随时取用"
+        },
+        {
+          "key": "D",
+          "text": "保存一个只在本次组合内有效的临时计算中间值"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "explanation": "remember 的值活到该组合离开为止，Activity 因配置变更重建时组合会被销毁，值随之丢失；rememberSaveable 会把值交给 SavedStateRegistry 写进 Bundle，重建后自动恢复，所以只有「需要跨重建恢复的少量状态」才非它不可。它要求类型能被 Bundle 存储（基本类型、Parcelable、Serializable 等），自定义类要么加 @Parcelize，要么提供 Saver。缓存大对象应该放 ViewModel，Bundle 装不下大列表；Context 绝对不能放进去，既不可序列化也容易泄漏。只在当前组合内有效的中间值，用 remember 就够了。",
+      "tags": [
+        "Compose"
+      ],
+      "image": null
+    },
+    {
+      "id": "q16",
+      "type": "multiple",
+      "stem": "关于 Compose 中 `Modifier` 的顺序，下列说法正确的有？（多选）",
+      "options": [
+        {
+          "key": "A",
+          "text": "Modifier 链从左到右依次应用，前面的包住后面的，顺序会改变最终布局与绘制结果"
+        },
+        {
+          "key": "B",
+          "text": "`Modifier.padding(16.dp).background(Red)` 与 `Modifier.background(Red).padding(16.dp)` 视觉结果不同：前者红色只覆盖内容区，后者把 padding 一起涂上"
+        },
+        {
+          "key": "C",
+          "text": "`clickable` 写在 `padding` 之前时点击区域包含 padding，写在之后则只覆盖内容区"
+        },
+        {
+          "key": "D",
+          "text": "Modifier 的顺序无所谓，Compose 会在编译期按标准顺序自动重排"
+        }
+      ],
+      "answers": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "Modifier 是一个不可变的链式结构，左边先应用、成为外层节点，右边后应用、成为内层节点，尺寸测量与绘制顺序都由此决定，因此顺序既有语义也有视觉后果。padding 在前意味着先把可用空间向内收缩一圈，其后的 background 只能画在收缩后的内容区域；background 在前则先铺满整个区域，再往里缩内容。clickable 同理：它作用于自己所处的那一层节点，放在 padding 之前，触摸范围就包含 padding 形成的空白，放在之后则只有内容区可点——这也是「按钮点不到边缘」这类问题的根因。Compose 不会重排 Modifier，顺序完全由你决定。",
+      "tags": [
+        "Compose"
+      ],
+      "image": null
+    },
+    {
+      "id": "q17",
+      "type": "true_false",
+      "stem": "`suspend` 函数被调用时会自动切换到后台线程执行，因此可以直接在 `viewModelScope` 里调用阻塞式网络请求。",
+      "answers": [
+        "false"
+      ],
+      "explanation": "suspend 只表示「这个函数可能挂起」，它默认继承调用方的调度器：在 viewModelScope（Main.immediate）里调用，后续代码就跑在主线程，阻塞式请求照样把界面卡住，直到超时或返回，严重时触发 ANR。正确做法是用 withContext(Dispatchers.IO) 包住阻塞调用，或改用本身就支持挂起的库（Retrofit 的 suspend 接口、Room 的 suspend DAO、OkHttp 的 await 扩展）。「挂起不阻塞线程」的前提是函数内部真的在挂起点把线程让出去，仅仅是加个 suspend 关键字并不会带来任何线程切换。",
+      "tags": [
+        "协程"
+      ],
+      "image": null
+    },
+    {
+      "id": "q18",
+      "type": "single",
+      "stem": "在 `viewModelScope` 中启动的协程，下列说法正确的是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "ViewModel 被清除（onCleared）时 viewModelScope 会被取消，其中所有子协程一并取消"
+        },
+        {
+          "key": "B",
+          "text": "`viewModelScope` 独立于界面生命周期，所以 Activity 销毁后它也不会被取消"
+        },
+        {
+          "key": "C",
+          "text": "在 `viewModelScope` 里抛出的未捕获异常会被静默吞掉，不会导致崩溃"
+        },
+        {
+          "key": "D",
+          "text": "`viewModelScope` 默认运行在 `Dispatchers.IO` 上，所以可以直接在里面做数据库操作"
+        }
+      ],
+      "answers": [
+        "A"
+      ],
+      "explanation": "viewModelScope 是绑定在 ViewModel 上的 CoroutineScope，onCleared 时执行 cancel，结构化并发保证父作用域的取消会传播给全部子协程，界面退出后后台任务不会继续回调更新状态，也就不会崩在已销毁的界面上。它的默认上下文是 SupervisorJob 加 Dispatchers.Main.immediate，不是 IO：Room 的 suspend DAO 与 Retrofit 的 suspend 接口会自己切线程，但普通阻塞 IO 仍需 withContext(Dispatchers.IO)。异常方面，SupervisorJob 让一个子协程失败不连坐兄弟协程，但未捕获异常仍会交给 CoroutineExceptionHandler，没有处理就会崩溃，绝不会被静默吞掉。",
+      "tags": [
+        "协程"
+      ],
+      "image": null
+    },
+    {
+      "id": "q19",
+      "type": "multiple",
+      "stem": "关于协程的调度与取消，下列说法正确的有？（多选）",
+      "options": [
+        {
+          "key": "A",
+          "text": "`withContext(Dispatchers.IO)` 挂起当前协程、切到 IO 线程池执行，完成后带着结果切回原调度器"
+        },
+        {
+          "key": "B",
+          "text": "协程的取消是协作式的：只有执行到挂起点或主动检查 `isActive`、调用 `ensureActive()` 时才会真正停止"
+        },
+        {
+          "key": "C",
+          "text": "`Dispatchers.Default` 适合 CPU 密集计算、线程数受 CPU 核数约束，`Dispatchers.IO` 线程池更大、适合阻塞 IO"
+        },
+        {
+          "key": "D",
+          "text": "在协程里调用 `Thread.sleep(1000)` 会正确让出线程，效果等同于 `delay(1000)`"
+        }
+      ],
+      "answers": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "withContext 会切换调度器并挂起当前协程，块内代码在目标线程池执行，返回时恢复原来的调度器，所以它既能切线程又能优雅地回到主线程更新 UI。取消是协作式的：cancel 只是把 Job 置为 cancelling，正在运行的代码不会被打断，必须运行到挂起点（如 delay、await、suspend 的 DAO 调用）或在循环里主动 ensureActive 才会抛 CancellationException；在紧循环里不检查，协程会一直算下去。Default 的线程数默认等于 CPU 核数（至少 2），适合解析、排序这类计算；IO 池按需扩容，专为阻塞调用设计。Thread.sleep 是阻塞当前线程，delay 才是挂起，两者对协程调度器的影响完全不同。",
+      "tags": [
+        "协程"
+      ],
+      "image": null
+    },
+    {
+      "id": "q20",
+      "type": "single",
+      "stem": "关于 Room 的 DAO，下列说法正确的是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "返回 `Flow<List<Question>>` 的查询会在相关表数据变化时自动重新执行并发射新结果"
+        },
+        {
+          "key": "B",
+          "text": "`@Query` 里的表名和列名不做编译期检查，写错只会在运行时抛异常"
+        },
+        {
+          "key": "C",
+          "text": "`@Insert` 默认在主线程同步执行，需要自己包 try/catch 处理磁盘异常"
+        },
+        {
+          "key": "D",
+          "text": "`@Transaction` 注解只对 `@Insert` 生效，查询方法不能用"
+        }
+      ],
+      "answers": [
+        "A"
+      ],
+      "explanation": "Room 对返回 Flow（以及 LiveData、RxJava 类型）的查询做了可观察封装，底层通过 InvalidationTracker 监听所涉及表的写入，数据一变就重新执行查询并发射，配合 stateIn 就能直接驱动 UI，省掉手写刷新逻辑。B 恰好说反了：Room 是注解处理器（这里用 KSP），在编译期解析 SQL、校验表与列是否存在、类型是否匹配，写错列名直接编译失败，这是它相对裸 SQLite 的最大价值。主线程执行数据库操作在 Room 里是被禁止的，会抛 IllegalStateException，suspend 方法与 Flow 会自动切到 Room 的执行器。@Transaction 可以用在查询方法上，保证 @Relation 这类多表读取拿到一致快照。",
+      "tags": [
+        "Room"
+      ],
+      "image": null
+    },
+    {
+      "id": "q21",
+      "type": "true_false",
+      "stem": "把 `@Database(version = 1)` 改成 `version = 2` 并给实体新增一个字段后，Room 会自动为已经安装的旧版本数据库补上这一列。",
+      "answers": [
+        "false"
+      ],
+      "explanation": "只改版本号和实体并不会产生迁移：Room 打开数据库时发现需要从 1 升到 2 却找不到对应迁移路径，会直接抛 IllegalStateException；同时它还会拿导出的 schema 哈希与实体结构比对，不一致同样报错。正确做法是实现 Migration(1, 2) 并执行 ALTER TABLE ... ADD COLUMN（SQLite 加列要求新列可空或带默认值），再通过 addMigrations 注册；结构变更比较简单时也可以用 @AutoMigration(from = 1, to = 2) 让 Room 生成 SQL，但改列名、删列、拆表这些情况仍要手写。fallbackToDestructiveMigration 会删库重建，用户数据全丢，不能当作迁移方案。",
+      "tags": [
+        "Room"
+      ],
+      "image": null
+    },
+    {
+      "id": "q22",
+      "type": "multiple",
+      "stem": "关于 Room 的表设计与事务，下列说法正确的有？（多选）",
+      "options": [
+        {
+          "key": "A",
+          "text": "经常按某一列查询（如 `bankId`）时就该建 `@Index`，否则每次查询都是全表扫描"
+        },
+        {
+          "key": "B",
+          "text": "外键可配置 `onDelete = CASCADE`，删除父行时自动删除子行，但外键列需要索引，否则 Room 会警告且删除变慢"
+        },
+        {
+          "key": "C",
+          "text": "`@Transaction` 用在 DAO 方法上时，方法内的多条语句要么全部成功、要么全部回滚"
+        },
+        {
+          "key": "D",
+          "text": "Room 的实体主键只能是 `Int` 类型的自增 id，不能用 `String`"
+        }
+      ],
+      "answers": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "索引是刷题类应用最直接的性能手段：题库表里按 bankId 取题、按 questionId 查答题记录都是高频查询，没有索引就是全表扫描，题量上万后差别非常明显；组合查询还可以用 @Index(value = [\"bankId\", \"questionId\"]) 建联合索引。外键的级联删除依赖子表上的索引来定位要删的行，Room 在编译期会对此发出警告，加 @Index 既消警告也提速。@Transaction 让方法内的语句处在同一个 SQLite 事务中，异常时整体回滚，这也是导入题库时不能留下半份数据的原因。主键完全可以用 String，题目 id 用字符串是常见做法，只是要注意字符串主键的索引开销略高。",
+      "tags": [
+        "Room"
+      ],
+      "image": null
+    },
+    {
+      "id": "q23",
+      "type": "single",
+      "stem": "在 Android 13（API 33）及以上，让用户从相册选一张图片，下列做法正确的是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "申请 `READ_EXTERNAL_STORAGE` 即可，API 33 上行为没有变化"
+        },
+        {
+          "key": "B",
+          "text": "使用 `ActivityResultContracts.PickVisualMedia` 调用系统照片选择器，用户自己挑图，无需申请存储权限"
+        },
+        {
+          "key": "C",
+          "text": "只要在 `AndroidManifest.xml` 里声明了权限，安装后就会自动授予"
+        },
+        {
+          "key": "D",
+          "text": "申请 `MANAGE_EXTERNAL_STORAGE` 最省事，Google Play 对它没有额外限制"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "explanation": "系统照片选择器（Photo Picker）由系统界面代用户完成挑选，应用只会拿到用户选中那几张图的临时读权限，因此完全不需要 READ_MEDIA_IMAGES 之类的权限，也不必声明 <queries>，是 Google 目前推荐的做法；ActivityResultContracts 会自动处理低版本回落。API 33 起 READ_EXTERNAL_STORAGE 对图片和视频已失效，改为按媒体类型细分的 READ_MEDIA_IMAGES、READ_MEDIA_VIDEO、READ_MEDIA_AUDIO。声明权限不等于授予：危险权限必须在运行时请求，用户可以拒绝。MANAGE_EXTERNAL_STORAGE 属于特殊权限，上架时需要说明必要性并接受审核，滥用会被拒。",
+      "tags": [
+        "权限"
+      ],
+      "image": null
+    },
+    {
+      "id": "q24",
+      "type": "true_false",
+      "stem": "通过 `ACTION_OPEN_DOCUMENT` 选中的文件，其 `content://` Uri 的读权限在应用重启后依然有效，可以直接存下来下次使用。",
+      "answers": [
+        "false"
+      ],
+      "explanation": "SAF 默认给的是一次性授权，作用范围限于当前任务，进程重启或任务结束后就失效，再拿它读文件会抛 SecurityException。要长期访问必须在 Intent 里加 FLAG_GRANT_PERSISTABLE_URI_PERMISSION，并在结果回调里调用 contentResolver.takePersistableUriPermission(uri, FLAG_GRANT_READ_URI_PERMISSION) 把授权持久化；写权限要另外申请 FLAG_GRANT_WRITE_URI_PERMISSION。即便如此也要有容错：用户可能删掉文件、卸载来源应用、清理云盘缓存，届时 Uri 依然存在但读取会失败，所以导入失败要给明确提示而不是崩溃。",
+      "tags": [
+        "权限"
+      ],
+      "image": null
+    },
+    {
+      "id": "q25",
+      "type": "multiple",
+      "stem": "关于运行时权限的申请，下列说法正确的有？（多选）",
+      "options": [
+        {
+          "key": "A",
+          "text": "`shouldShowRequestPermissionRationale()` 返回 true，说明用户此前拒绝过但未选择「不再询问」，此时应先说明用途再申请"
+        },
+        {
+          "key": "B",
+          "text": "用户选择「不再询问」后，再次申请会立刻回调拒绝且不再弹系统对话框，此时应引导用户去应用设置页手动开启"
+        },
+        {
+          "key": "C",
+          "text": "危险权限必须在运行时申请，同时也要在 Manifest 中声明；只声明不申请会一直处于未授予状态"
+        },
+        {
+          "key": "D",
+          "text": "权限被拒绝后可以无限次弹出系统权限对话框，系统不会做任何限制"
+        }
+      ],
+      "answers": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "shouldShowRequestPermissionRationale 的语义要分清：返回 true 表示用户拒绝过但还没勾选不再询问，这时解释清楚「为什么需要」再申请，接受率会明显提高；返回 false 有两种可能——从未申请过，或者已被永久拒绝，要靠自己记录「是否已申请过」来区分。被永久拒绝后系统不再弹框，请求会立刻回调 denied，唯一出路是引导用户到设置页授权，返回后再检查一次状态。危险权限即使写进 Manifest 也必须运行时申请，声明只是「我有资格申请」。所以「无限弹框」的说法不成立：从 Android 11 起，用户连续拒绝两次后系统便不再弹出对话框，请求会直接回调拒绝。",
+      "tags": [
+        "权限"
+      ],
+      "image": null
+    },
+    {
+      "id": "q26",
+      "type": "true_false",
+      "stem": "Gradle 版本目录（`gradle/libs.versions.toml`）里的版本号只能用于依赖声明，无法在 `build.gradle.kts` 中读出来赋给 `compileSdk`、`minSdk` 这类 DSL 属性。",
+      "answers": [
+        "false"
+      ],
+      "explanation": "[versions] 里的每一项都会生成 libs.versions.<name> 访问器，可以写成 compileSdk = libs.versions.android.compileSdk.get().toInt() 赋给 DSL，从而把 SDK 版本和依赖版本真正集中在一处管理，避免同一个数字散落在多个文件里。要留意两点：访问器返回的是 Provider<String>，必须 get() 才能取值；toml 里的键用短横线分隔，访问器用点号（compile-sdk 对应 libs.versions.compile.sdk）。同理，插件版本用 libs.versions.xxx 配合 alias(libs.plugins.yyy) 引用，拼错会在同步阶段就失败，而不是等到运行期。",
+      "tags": [
+        "Gradle"
+      ],
+      "image": null
+    },
+    {
+      "id": "q27",
+      "type": "single",
+      "stem": "某工程同时配置了 `buildTypes { debug, release }` 和 `productFlavors { free, paid }`，下列说法正确的是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "会产出 freeDebug、freeRelease、paidDebug、paidRelease 四个变体，每个都是独立的构建产物"
+        },
+        {
+          "key": "B",
+          "text": "只会产出两个变体，flavor 会覆盖 buildType 的配置"
+        },
+        {
+          "key": "C",
+          "text": "flavor 与 buildType 不能同时使用，必须二选一"
+        },
+        {
+          "key": "D",
+          "text": "变体数量由 `minSdk` 决定，与 flavor 无关"
+        }
+      ],
+      "answers": [
+        "A"
+      ],
+      "explanation": "变体（variant）是 buildType 与 productFlavor 两个维度的笛卡尔积，2 × 2 得到四个变体，各自拥有独立的 applicationId 后缀、BuildConfig 字段、资源覆盖规则和输出目录。两者的职责不同：productFlavor 描述「同一应用的不同发行版本」（免费/付费、国内/海外渠道、不同服务端地址），buildType 描述「构建性质」（是否可调试、是否压缩混淆、用哪把签名）。正因为正交，才能组合出「付费版正式包」这种具体产物。变体数量与 minSdk 毫无关系，minSdk 只影响安装门槛和可用 API。",
+      "tags": [
+        "Gradle",
+        "打包发布"
+      ],
+      "image": null
+    },
+    {
+      "id": "q28",
+      "type": "multiple",
+      "stem": "release 构建开启 `isMinifyEnabled = true` 后，关于 R8 下列说法正确的有？（多选）",
+      "options": [
+        {
+          "key": "A",
+          "text": "R8 会做代码压缩、混淆与优化，移除未被引用的类、方法和字段"
+        },
+        {
+          "key": "B",
+          "text": "通过反射访问的类或字段可能被误删或改名，需要在规则文件里用 `-keep` 保留"
+        },
+        {
+          "key": "C",
+          "text": "`isShrinkResources = true` 会移除未被引用的资源，但它依赖代码压缩已经开启才有意义"
+        },
+        {
+          "key": "D",
+          "text": "R8 只在 debug 构建中生效，release 默认关闭"
+        }
+      ],
+      "answers": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "R8 是 AGP 默认的压缩器，同时承担 shrink（删未用代码）、obfuscate（把类名方法名改成短名）、optimize（内联、常量传播等）三件事，能显著减小包体并提高一定性能。代价是反射、序列化、JNI 这类「字符串到符号」的调用对 R8 不可见，必须用 -keep 规则保住，否则运行期才崩，而且崩溃栈还是混淆过的。isShrinkResources 负责删除未被代码引用的资源，官方明确要求与代码压缩同时开启，否则无法确定哪些资源真的没被用到。默认情况恰好相反：release 不开启压缩，需要自己把 isMinifyEnabled 设为 true。",
+      "tags": [
+        "Gradle",
+        "打包发布"
+      ],
+      "image": null
+    },
+    {
+      "id": "q29",
+      "type": "single",
+      "stem": "关于打包格式与签名，下列说法正确的是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "AAB 可以直接安装到手机上，和 APK 一样双击即可"
+        },
+        {
+          "key": "B",
+          "text": "上架 Google Play 用 AAB，商店按设备配置生成并下发拆分的 APK；直接分发（侧载）一般仍需提供 APK"
+        },
+        {
+          "key": "C",
+          "text": "更换签名密钥后，用新密钥签名的 APK 可以覆盖安装旧版本，用户数据保留"
+        },
+        {
+          "key": "D",
+          "text": "debug 签名与 release 签名没有本质区别，正式发布用 debug 包也可以"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "explanation": "AAB 是发布格式而非安装格式：它把不同 ABI、屏幕密度、语言的资源分开存放，由商店或 bundletool 按设备生成 split APK 再下发，所以它本身不能直接装进手机。国内应用商店与直接分发目前仍以 APK 为主。签名是应用身份的一部分：包名相同但签名不同，系统视为另一个应用，覆盖安装会报 INSTALL_FAILED_UPDATE_INCOMPATIBLE，只能先卸载、数据随之丢失，这就是 release keystore 必须离线备份的原因。debug 包用自动生成的调试密钥且带 debuggable 标记，可以被调试器附加，绝不能对外发布。",
+      "tags": [
+        "打包发布"
+      ],
+      "image": null
+    },
+    {
+      "id": "q30",
+      "type": "single",
+      "stem": "关于 `minSdk`、`compileSdk`、`targetSdk` 三个配置，下列说法正确的是？",
+      "options": [
+        {
+          "key": "A",
+          "text": "三者必须完全相等，否则工程无法编译"
+        },
+        {
+          "key": "B",
+          "text": "`minSdk` 决定能安装应用的最低系统版本，`compileSdk` 决定编译时可用的 API，`targetSdk` 决定系统以哪个版本的兼容行为运行应用"
+        },
+        {
+          "key": "C",
+          "text": "`targetSdk` 越低，应用在新系统上获得的权限越多、限制越少，因此应尽量调低"
+        },
+        {
+          "key": "D",
+          "text": "`compileSdk` 只影响界面主题，与能否调用新 API 无关"
+        }
+      ],
+      "answers": [
+        "B"
+      ],
+      "explanation": "三个值的职责完全不同：minSdk 是安装门槛，低于它的设备装不上，同时也决定你能选用哪些库版本；compileSdk 是编译期对照的框架版本，决定你能引用哪些 API、lint 按哪个版本检查，通常取最新稳定版；targetSdk 是「我针对哪个版本做过适配」的声明，系统据此决定是否对你施加新版本的行为变更，比如后台限制、通知权限、分区存储、前台服务类型。把 targetSdk 调低只是暂时逃避适配，Play 对上架有最低 targetSdk 要求，而且用户在新系统上会撞到兼容问题，并不存在「权限更多」这回事。常见组合是 minSdk 26、compileSdk 35、targetSdk 35，三者独立取值。",
+      "tags": [
+        "打包发布"
+      ],
+      "image": null
+    }
+  ]
+}

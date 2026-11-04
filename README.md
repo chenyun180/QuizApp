@@ -97,13 +97,13 @@ keytool -genkeypair -v \
     {
       "id": "q1",
       "type": "single",
-      "stem": "Activity 被系统回收前，哪个回调会被调用？",
+      "stem": "Activity 已经对用户可见、但还没有进入可交互状态时，最后回调的是哪一个？",
       "options": [
-        { "key": "A", "text": "onPause" },
-        { "key": "B", "text": "onDestroy" }
+        { "key": "A", "text": "onStart" },
+        { "key": "B", "text": "onResume" }
       ],
       "answers": ["A"],
-      "explanation": "onPause 先于 onDestroy 调用。"
+      "explanation": "可见但不可交互对应 started 状态，由 onStart 进入；onResume 之后才进入前台可交互的 resumed 状态。"
     }
   ]
 }
@@ -128,6 +128,10 @@ keytool -genkeypair -v \
 | `questions[].image` | 否 | 图片引用，当前版本保留字段未渲染 |
 
 判断题可以不写 `options`，默认 `T` = 正确、`F` = 错误；`answers` 也可以直接写 `true`/`false`/`正确`/`错误`，解析器会归一化。
+
+### 内置题库
+
+`app/src/main/assets/samples/sample_bank.json` 是随包装进去的「Android 基础 · 30 题」（16 单选 / 8 多选 / 6 判断，每题都带解析和标签），首次启动自动导入，只导一次。这份题库的副本也放在 `core/data/src/test/resources/banks/android-basics-30.json`，由 `AndroidBasicsBankTest` 用真解析器跑一遍——题库只要有一处不合契约，单元测试就先红，不会等到用户装上去看到空题库。
 
 ### 校验是严格的，而且是「全量报错」
 
@@ -189,13 +193,15 @@ QuizApp/
 ## 7. 测试
 
 ```bash
-./gradlew test                                  # 37 个 JVM 单元测试
+./gradlew test                                  # 53 个 JVM 单元测试（debug + release 各跑一遍，共 90 次执行）
 ./gradlew :core:database:assembleDebugAndroidTest   # 编译仪器测试（不需要设备）
 ./gradlew :core:database:connectedDebugAndroidTest  # 真跑仪器测试（需要设备/模拟器）
 ```
 
+- `app` — 8 个内置题库写入策略测试：全新安装该导入、老用户升级要把 v1.0.0 的 14 题旧示例换成新的、用户自己导入的题库绝不能被删、用户删过示例后不能反复塞回来。
 - `core:model` — 16 个判分测试：单选、多选（集合完全相等才算对）、判断题、空答案、分母为零。
 - `core:data` — 21 个 JSON 解析测试：正确路径 + 17 种错误输入，包括未知字段、重复选项 key、答案引用不存在的 key、多选只给一个答案等。
+- `core:data` — 8 个内置题库回归测试：用真解析器解析打包进 APK 的那份 30 题 JSON，校验通过、题数与题型分布、id 集合、每题解析长度、标签词表、选项与答案一致性。
 - `core:database` — 10 个仪器测试：真实 SQLite 上的导入、重复导入覆盖、级联删除、错题本最新记录语义、收藏幂等、标签 JOIN 查询。
 
 ---

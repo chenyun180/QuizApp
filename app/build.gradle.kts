@@ -32,8 +32,8 @@ android {
         applicationId = "com.alri.quiz"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         // 只保留需要的语言，减小包体（AppCompat 会带 80 多种语言）
         resourceConfigurations += listOf("zh", "en")
